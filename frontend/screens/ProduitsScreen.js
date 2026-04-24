@@ -24,7 +24,7 @@ export default function ProduitsScreen({ navigation }) {
   const [filterEmplacement, setFilterEmplacement] = useState('');
   const [emplacements, setEmplacements] = useState([]);
 
-  const limit = 10;
+  const limit = 3;
 
   const fetchProduits = async (q = search, p = page, sBy = sortBy, sOrder = sortOrder, emp = filterEmplacement) => {
     try {
