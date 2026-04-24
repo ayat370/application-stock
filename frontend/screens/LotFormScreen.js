@@ -23,7 +23,7 @@ export default function LotFormScreen({ route, navigation }) {
   const [idlot, setIdlot] = useState(lot?.idlot || '');
   const [quantite, setQuantite] = useState(lot?.quantite?.toString() || '');
 
-  // ✅ date simple string (YYYY-MM-DD)
+  // ✅ date as string for Web compatibility (YYYY-MM-DD)
   const [dateExpiration, setDateExpiration] = useState(
     lot?.dateExpiration
       ? new Date(lot.dateExpiration).toISOString().split('T')[0]
@@ -44,7 +44,7 @@ export default function LotFormScreen({ route, navigation }) {
   const fetchProducts = async () => {
     try {
       const res = await api.get('/produits');
-      setProducts(res.data);
+      setProducts(res.data.produits || []);
     } catch (e) {
       console.error(e);
     }
@@ -69,7 +69,7 @@ export default function LotFormScreen({ route, navigation }) {
         idlot,
         quantite: Number(quantite),
         produit: produitId,
-        dateExpiration: dateExpiration || null,
+        dateExpiration: dateExpiration ? new Date(dateExpiration).toISOString() : null,
       };
 
       if (isEdit) {
@@ -107,20 +107,45 @@ export default function LotFormScreen({ route, navigation }) {
           keyboardType="numeric"
         />
 
-        {/* 📅 SIMPLE DATE INPUT (WEB + MOBILE) */}
+        {/* 📅 DATE INPUT - Web compatible */}
         <View style={{ marginBottom: 14 }}>
           <Text style={styles.label}>Date d'expiration</Text>
 
-          <TextInput
-            style={styles.dateInput}
-            placeholder="YYYY-MM-DD"
-            value={dateExpiration}
-            onChangeText={setDateExpiration}
-            keyboardType="numeric"
-          />
+          {Platform.OS === 'web' ? (
+            // HTML date input for Web
+            <input
+              type="date"
+              value={dateExpiration}
+              onChange={(e) => setDateExpiration(e.target.value)}
+              style={{
+                width: '100%',
+                padding: '12px',
+                borderWidth: 1.5,
+                borderColor: colors.border,
+                borderRadius: 10,
+                backgroundColor: colors.white,
+                fontSize: 16,
+                borderStyle: 'solid',
+                outline: 'none',
+              }}
+              min={new Date().toISOString().split('T')[0]}
+            />
+          ) : (
+            // TextInput for mobile
+            <TextInput
+              style={styles.dateInput}
+              placeholder="YYYY-MM-DD"
+              value={dateExpiration}
+              onChangeText={setDateExpiration}
+              keyboardType="numeric"
+            />
+          )}
 
           <Text style={styles.dateHint}>
-            Exemple: 2026-12-31
+            {Platform.OS === 'web'
+              ? 'Utilisez le calendrier ou saisissez YYYY-MM-DD'
+              : 'Exemple: 2026-12-31'
+            }
           </Text>
         </View>
 
