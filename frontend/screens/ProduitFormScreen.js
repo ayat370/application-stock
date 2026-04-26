@@ -13,6 +13,7 @@ export default function ProduitFormScreen({ route, navigation }) {
   const [emplacementId, setEmplacementId] = useState(produit?.emplacement?._id || '');
   const [emplacementNom, setEmplacementNom] = useState(produit?.emplacement?.nomemplacement || '');
   const [emplacements, setEmplacements] = useState([]);
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -28,9 +29,16 @@ export default function ProduitFormScreen({ route, navigation }) {
   };
 
   const handleSubmit = async () => {
-    if (!nom.trim() || !codebarre.trim()) {
-      return Alert.alert('Erreur', 'Nom et code-barres sont obligatoires');
+    const validationErrors = {};
+    if (!nom.trim()) validationErrors.nom = 'Le nom du produit est obligatoire';
+    if (!codebarre.trim()) validationErrors.codebarre = 'Le code-barres est obligatoire';
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
+
+    setErrors({});
     setLoading(true);
     try {
       const body = { nom, description, codebarre, emplacement: emplacementId || undefined };
@@ -49,9 +57,22 @@ export default function ProduitFormScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.form}>
-        <Input label="Nom du produit *" placeholder="Ex: Huile moteur 5W30" value={nom} onChangeText={setNom} />
+        <Input
+          label="Nom du produit *"
+          placeholder="Ex: Huile moteur 5W30"
+          value={nom}
+          onChangeText={(value) => { setNom(value); if (errors.nom) setErrors({ ...errors, nom: null }); }}
+          error={errors.nom}
+        />
         <Input label="Description" placeholder="Description optionnelle" value={description} onChangeText={setDescription} multiline numberOfLines={3} />
-        <Input label="Code-barres *" placeholder="Ex: 123456789012" value={codebarre} onChangeText={setCodebarre} keyboardType="numeric" />
+        <Input
+          label="Code-barres *"
+          placeholder="Ex: 123456789012"
+          value={codebarre}
+          onChangeText={(value) => { setCodebarre(value); if (errors.codebarre) setErrors({ ...errors, codebarre: null }); }}
+          keyboardType="numeric"
+          error={errors.codebarre}
+        />
 
         {/* Sélection emplacement */}
         <View style={{ marginBottom: 14 }}>

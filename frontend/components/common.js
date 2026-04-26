@@ -134,8 +134,16 @@ export const TableHeader = ({ columns, sortBy, sortOrder, onSort }) => (
       >
         <View style={styles.headerContent}>
           <Text style={styles.headerText}>{col.label}</Text>
-          {col.sortable !== false && sortBy === col.key && (
-            <Text style={styles.sortIcon}>{sortOrder === 'asc' ? '↑' : '↓'}</Text>
+          {col.sortable !== false && (
+            <Text style={[
+              styles.sortIcon,
+              sortBy === col.key && styles.sortIconActive
+            ]}>
+              {sortBy === col.key
+                ? (sortOrder === 'asc' ? '▲' : '▼')
+                : '↕️'
+              }
+            </Text>
           )}
         </View>
       </TouchableOpacity>
@@ -310,6 +318,11 @@ const styles = StyleSheet.create({
     marginLeft: 4,
     color: colors.primary,
     fontWeight: '600',
+  },
+  sortIconActive: {
+    color: colors.primary,
+    fontSize: 14,
+    fontWeight: '800',
   },
   tableRow: {
     flexDirection: 'row',

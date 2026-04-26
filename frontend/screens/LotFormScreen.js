@@ -34,6 +34,7 @@ export default function LotFormScreen({ route, navigation }) {
   const [produitNom, setProduitNom] = useState(lot?.produit?.nom || '');
 
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const [products, setProducts] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -53,15 +54,27 @@ export default function LotFormScreen({ route, navigation }) {
   const selectProduct = (product) => {
     setProduitId(product._id);
     setProduitNom(product.nom);
+    setErrors({ ...errors, produit: null });
     setModalVisible(false);
   };
 
-  const handleSubmit = async () => {
+  const validateLotForm = () => {
+    const validationErrors = {};
+    if (!idlot.trim()) validationErrors.idlot = 'L’identifiant du lot est obligatoire';
+    if (!quantite.trim()) validationErrors.quantite = 'La quantité est obligatoire';
+    else if (isNaN(Number(quantite)) || Number(quantite) < 0) validationErrors.quantite = 'Entrez un nombre valide';
+    if (!produitId.trim()) validationErrors.produit = 'Le produit est obligatoire';
+    return validationErrors;
+  };
 
-    if (!idlot.trim() || !quantite || !produitId.trim()) {
-      return Alert.alert('Erreur', 'ID lot, quantité et produit sont obligatoires');
+  const handleSubmit = async () => {
+    const validationErrors = validateLotForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
     }
 
+    setErrors({});
     setLoading(true);
 
     try {
@@ -96,15 +109,17 @@ export default function LotFormScreen({ route, navigation }) {
           label="ID du lot *"
           placeholder="Ex: LOT-2024-001"
           value={idlot}
-          onChangeText={setIdlot}
+          onChangeText={(value) => { setIdlot(value); if (errors.idlot) setErrors({ ...errors, idlot: null }); }}
+          error={errors.idlot}
         />
 
         <Input
           label="Quantité *"
           placeholder="Ex: 100"
           value={quantite}
-          onChangeText={setQuantite}
+          onChangeText={(value) => { setQuantite(value); if (errors.quantite) setErrors({ ...errors, quantite: null }); }}
           keyboardType="numeric"
+          error={errors.quantite}
         />
 
         {/* 📅 DATE INPUT - Web compatible */}
@@ -154,13 +169,14 @@ export default function LotFormScreen({ route, navigation }) {
           <Text style={styles.label}>Produit *</Text>
 
           <TouchableOpacity
-            style={styles.productSelector}
+            style={[styles.productSelector, errors.produit && { borderColor: colors.danger }]}
             onPress={() => setModalVisible(true)}
           >
             <Text style={{ color: produitNom ? colors.text : colors.textLight }}>
               {produitNom || 'Sélectionner un produit'}
             </Text>
           </TouchableOpacity>
+          {errors.produit && <Text style={styles.errorText}>{errors.produit}</Text>}
         </View>
 
         {/* BUTTON */}

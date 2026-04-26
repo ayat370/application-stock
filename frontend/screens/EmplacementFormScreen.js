@@ -12,10 +12,20 @@ export default function EmplacementFormScreen({ route, navigation }) {
   const [nomemplacement, setNomemplacement] = useState(emp?.nomemplacement || '');
   const [zone, setZone] = useState(emp?.zone || 'rayon');
   const [nbboite, setNbboite] = useState(emp?.nbboite?.toString() || '0');
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
-    if (!nomemplacement.trim()) return Alert.alert('Erreur', 'Le nom est obligatoire');
+    const validationErrors = {};
+    if (!nomemplacement.trim()) validationErrors.nomemplacement = 'Le nom de l’emplacement est obligatoire';
+    if (!zone) validationErrors.zone = 'La zone est obligatoire';
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    setErrors({});
     setLoading(true);
     try {
       const body = { nomemplacement, zone, nbboite: Number(nbboite) };
@@ -32,7 +42,13 @@ export default function EmplacementFormScreen({ route, navigation }) {
   return (
     <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
       <View style={styles.form}>
-        <Input label="Nom de l'emplacement *" placeholder="Ex: Rayon A1" value={nomemplacement} onChangeText={setNomemplacement} />
+        <Input
+          label="Nom de l'emplacement *"
+          placeholder="Ex: Rayon A1"
+          value={nomemplacement}
+          onChangeText={(value) => { setNomemplacement(value); if (errors.nomemplacement) setErrors({ ...errors, nomemplacement: null }); }}
+          error={errors.nomemplacement}
+        />
         
         <Text style={styles.label}>Zone *</Text>
         <View style={styles.zoneRow}>

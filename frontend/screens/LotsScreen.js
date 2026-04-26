@@ -16,11 +16,11 @@ export default function LotsScreen({ navigation }) {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [total, setTotal] = useState(0);
-  const [sortBy, setSortBy] = useState('datecreation');
-  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortBy, setSortBy] = useState('idlot');
+  const [sortOrder, setSortOrder] = useState('asc');
   const [filterStatus, setFilterStatus] = useState(''); // 'expired', 'expiring', 'normal'
 
-  const limit = 10;
+  const limit = 5;
 
   const fetchLots = async (q = search, p = page, sBy = sortBy, sOrder = sortOrder, status = filterStatus) => {
     try {
@@ -29,29 +29,14 @@ export default function LotsScreen({ navigation }) {
         page: p, 
         limit, 
         sortBy: sBy, 
-        sortOrder: sOrder 
+        sortOrder: sOrder,
       };
+      if (status) params.status = status;
       
       const res = await api.get('/lots', { params });
-      let filteredLots = res.data.lots || [];
+      const fetchedLots = res.data.lots || [];
       
-      // Client-side filtering for status
-      if (status) {
-        const now = new Date();
-        filteredLots = filteredLots.filter(lot => {
-          if (!lot.dateExpiration) return status === 'normal';
-          const expDate = new Date(lot.dateExpiration);
-          const isExpired = expDate < now;
-          const isExpiring = expDate <= new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days
-          
-          if (status === 'expired') return isExpired;
-          if (status === 'expiring') return !isExpired && isExpiring;
-          if (status === 'normal') return !isExpired && !isExpiring;
-          return true;
-        });
-      }
-      
-      setLots(filteredLots);
+      setLots(fetchedLots);
       setTotalPages(res.data.pagination?.pages || 1);
       setTotal(res.data.pagination?.total || 0);
     } catch (e) { 

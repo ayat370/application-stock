@@ -35,7 +35,7 @@ function MainTabs() {
   const [unreadCount, setUnreadCount] = useState(0);
 
   const loadUnreadCount = async () => {
-    if (!user) return;
+    if (!user || user.role === 'magasinier') return;
     try {
       const res = await api.get('/notifications/unread-count');
       setUnreadCount(res.data.count || 0);
@@ -67,16 +67,18 @@ function MainTabs() {
         options={{ title: 'Lots', tabBarIcon: tabIcon('🗂️') }} />
       <Tab.Screen name="Stock" component={StockScreen}
         options={{ title: 'Stock', tabBarIcon: tabIcon('📊') }} />
-      <Tab.Screen
-        name="Notifications"
-        options={{
-          title: 'Notifications',
-          tabBarIcon: tabIcon('🔔'),
-          tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
-        }}
-      >
-        {() => <NotificationsScreen onUpdateUnreadCount={setUnreadCount} />}
-      </Tab.Screen>
+      {user?.role !== 'magasinier' && (
+        <Tab.Screen
+          name="Notifications"
+          options={{
+            title: 'Notifications',
+            tabBarIcon: tabIcon('🔔'),
+            tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+          }}
+        >
+          {() => <NotificationsScreen onUpdateUnreadCount={setUnreadCount} />}
+        </Tab.Screen>
+      )}
       <Tab.Screen name="Profil" component={ProfilScreen}
         options={{ title: 'Profil', tabBarIcon: tabIcon('👤') }} />
     </Tab.Navigator>

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Notification = require('../models/Notification');
-const { protect } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth');
 
 // GET /api/notifications — notifications du user connecté
-router.get('/', protect, async (req, res) => {
+router.get('/', protect, authorize('admin', 'gestionnaire'), async (req, res) => {
   try {
     const notifications = await Notification.find({ userId: req.user._id })
       .sort('-createdAt');
@@ -16,7 +16,7 @@ router.get('/', protect, async (req, res) => {
 });
 
 // GET /api/notifications/unread-count — nombre de notifications non lues du user connecté
-router.get('/unread-count', protect, async (req, res) => {
+router.get('/unread-count', protect, authorize('admin', 'gestionnaire'), async (req, res) => {
   try {
     const count = await Notification.countDocuments({ userId: req.user._id, read: false });
     res.json({ count });
@@ -59,7 +59,7 @@ const markNotificationRead = async (req, res) => {
 };
 
 // PUT /api/notifications/read/:id — marquer une notification comme lue
-router.put('/read/:id', protect, markNotificationRead);
-router.put('/:id/read', protect, markNotificationRead);
+router.put('/read/:id', protect, authorize('admin', 'gestionnaire'), markNotificationRead);
+router.put('/:id/read', protect, authorize('admin', 'gestionnaire'), markNotificationRead);
 
 module.exports = router;

@@ -8,16 +8,43 @@ const { sendEmail } = require('../config/email');
 // GET /api/lots
 router.get('/', protect, async (req, res) => {
   try {
-    const { produitId, search, page = 1, limit = 10, sortBy = 'datecreation', sortOrder = 'desc' } = req.query;
-    let query = produitId ? { produit: produitId } : {};
-    
+    const { produitId, search, status, page = 1, limit = 10, sortBy = 'datecreation', sortOrder = 'desc' } = req.query;
+    const query = {};
+    const andConditions = [];
+
+    if (produitId) query.produit = produitId;
+
     if (search) {
-      query.$or = [
-        { idlot: { $regex: search, $options: 'i' } },
-        { 'produit.nom': { $regex: search, $options: 'i' } }
-      ];
+      andConditions.push({
+        $or: [
+          { idlot: { $regex: search, $options: 'i' } },
+          { 'produit.nom': { $regex: search, $options: 'i' } }
+        ]
+      });
     }
-    
+
+    if (status) {
+      const now = new Date();
+      const expirationLimit = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+      if (status === 'expired') {
+        andConditions.push({ dateExpiration: { $lt: now } });
+      } else if (status === 'expiring') {
+        andConditions.push({ dateExpiration: { $gte: now, $lte: expirationLimit } });
+      } else if (status === 'normal') {
+        andConditions.push({
+          $or: [
+            { dateExpiration: { $gt: expirationLimit } },
+            { dateExpiration: { $exists: false } }
+          ]
+        });
+      }
+    }
+
+    if (andConditions.length) {
+      query.$and = andConditions;
+    }
+
     const sort = {};
     sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
     
