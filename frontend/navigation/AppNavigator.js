@@ -67,6 +67,7 @@ function MainTabs() {
         options={{ title: 'Lots', tabBarIcon: tabIcon('🗂️') }} />
       <Tab.Screen name="Stock" component={StockScreen}
         options={{ title: 'Stock', tabBarIcon: tabIcon('📊') }} />
+      {/* Onglet Notifications masqué pour les magasiniers */}
       {user?.role !== 'magasinier' && (
         <Tab.Screen
           name="Notifications"
