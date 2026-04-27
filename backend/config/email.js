@@ -1,27 +1,112 @@
 const nodemailer = require('nodemailer');
 
+// Validation des variables d'environnement
+const requiredEnvVars = ['EMAIL_HOST', 'EMAIL_PORT', 'EMAIL_USER', 'EMAIL_PASS', 'EMAIL_FROM'];
+const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingVars.length > 0) {
+  throw new Error(`Variables d'environnement manquantes pour Nodemailer: ${missingVars.join(', ')}`);
+}
+
+// Configuration du transporteur
 const transporter = nodemailer.createTransport({
   host: process.env.EMAIL_HOST,
-  port: process.env.EMAIL_PORT,
-  secure: false,
+  port: parseInt(process.env.EMAIL_PORT, 10),
+  secure: false, // false pour TLS
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // Options de sécurité supplémentaires
+  tls: {
+    rejectUnauthorized: false, // Pour les environnements de développement
+  },
 });
 
-const sendEmail = async ({ to, subject, html }) => {
+// Vérification de la configuration
+const verifyConnection = async () => {
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_FROM,
-      to,
-      subject,
-      html,
-    });
-    console.log(`📧 Email envoyé à ${to}`);
+    await transporter.verify();
+    console.log('✅ Configuration Nodemailer vérifiée avec succès');
+    return true;
   } catch (error) {
-    console.error('Erreur email:', error.message);
+    console.error('❌ Erreur de configuration Nodemailer:', error.message);
+    return false;
   }
+};
+
+// Fonction d'envoi d'email sécurisée
+const sendEmail = async ({ to = 'admin1563@gmail.com', subject, html, attachments = [] }) => {
+  // Validation des paramètres
+  if (!subject || !html) {
+    throw new Error('Le sujet et le contenu HTML sont requis pour l\'envoi d\'email');
+  }
+
+  if (!to || typeof to !== 'string') {
+    throw new Error('Adresse email destinataire invalide');
+  }
+
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_FROM,
+      to: to.trim(),
+      subject: subject.trim(),
+      html,
+      attachments,
+    };
+
+    const info = await transporter.sendMail(mailOptions);
+    console.log(`📧 Email envoyé avec succès à ${to} (Message ID: ${info.messageId})`);
+    return { success: true, messageId: info.messageId };
+  } catch (error) {
+    console.error('❌ Erreur lors de l\'envoi d\'email:', error.message);
+    throw error;
+  }
+};
+
+// Fonction de test d'email
+const sendTestEmail = async (recipient = 'admin1563@gmail.com') => {
+  const testHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background: #28a745; color: white; padding: 20px; text-align: center; border-radius: 8px 8px 0 0; }
+        .content { background: #f8f9fa; padding: 20px; border-radius: 0 0 8px 8px; }
+        .footer { text-align: center; font-size: 12px; color: #666; margin-top: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1>✅ Test d'Email Réussi</h1>
+        </div>
+        <div class="content">
+          <h2>Configuration Nodemailer fonctionnelle</h2>
+          <p>Cette email confirme que votre configuration d'envoi d'emails fonctionne correctement.</p>
+          <div style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
+            <p><strong>Destinataire :</strong> ${recipient}</p>
+            <p><strong>Serveur SMTP :</strong> ${process.env.EMAIL_HOST}:${process.env.EMAIL_PORT}</p>
+            <p><strong>Expéditeur :</strong> ${process.env.EMAIL_FROM}</p>
+            <p><strong>Date :</strong> ${new Date().toLocaleString('fr-FR')}</p>
+          </div>
+        </div>
+        <div class="footer">
+          <p>Système de Gestion de Stock - Test Automatique</p>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  return await sendEmail({
+    to: recipient,
+    subject: 'Test de Configuration Email - Stock App',
+    html: testHtml,
+  });
 };
 
 // Template email pour stock faible
@@ -143,4 +228,11 @@ const expiredProductTemplate = (produit, lot) => `
   </html>
 `;
 
-module.exports = { sendEmail, lowStockTemplate, expiredProductTemplate };
+module.exports = {
+  sendEmail,
+  sendTestEmail,
+  verifyConnection,
+  lowStockTemplate,
+  expiredProductTemplate,
+  transporter
+};
