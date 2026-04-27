@@ -1,0 +1,297 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                  🧪 GUIDE DE TEST - GÉNÉRATION PDF                       ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+ÉTAPE 1: PRÉPARATION
+════════════════════════════════════════════════════════════════════════════
+
+✅ Assurez-vous que:
+   □ Backend lancé: npm start (depuis /backend)
+   □ Frontend lancé: npm start (depuis /frontend)
+   □ Vous êtes connecté avec un rôle admin ou gestionnaire
+   □ Il y a des produits et des lots dans la base de données
+
+
+ÉTAPE 2: GÉNÉRER UN RAPPORT INVENTAIRE
+════════════════════════════════════════════════════════════════════════════
+
+1. Naviguer vers "Rapports"
+2. Cliquer sur bouton "📋 Inventaire"
+3. Attendre le message "✅ Succès - Rapport inventaire généré"
+4. Observer le rapport dans la liste
+
+VÉRIFICATIONS:
+   ✓ Le rapport s'affiche avec badge "📋 Inventaire"
+   ✓ Affiche la date et heure de génération
+   ✓ Affiche le nom de l'auteur (ex: "Par: Admin User")
+   ✓ Affiche le résumé: "X produits • Y lots"
+
+
+ÉTAPE 3: GÉNÉRER UN RAPPORT BILAN
+════════════════════════════════════════════════════════════════════════════
+
+1. Naviguer vers "Rapports"
+2. Cliquer sur bouton "📊 Bilan"
+3. Attendre le message "✅ Succès - Rapport bilan généré"
+4. Observer le rapport dans la liste
+
+VÉRIFICATIONS:
+   ✓ Le rapport s'affiche avec badge "📊 Bilan"
+   ✓ Affiche 4 cartes statistiques:
+     - Produits
+     - Lots
+     - Emplacements
+     - Quantité totale
+
+
+ÉTAPE 4: TÉLÉCHARGER LE PDF - RAPPORT INVENTAIRE
+════════════════════════════════════════════════════════════════════════════
+
+1. Trouver le rapport inventaire généré
+2. Cliquer sur bouton "📄 PDF"
+3. Le PDF devrait être téléchargé
+4. Ouvrir le PDF avec une visionneuse (Acrobat, navigateur, etc)
+
+VÉRIFICATIONS DU PDF INVENTAIRE:
+
+   EN-TÊTE:
+   □ Titre "📊 RAPPORT INVENTAIRE" - texte gros en gris foncé
+   □ Sous-titre: "Inventaire complet des produits en stock"
+   □ Date de génération complète (ex: "27 avril 2026 à 14:30:45")
+   □ Auteur (ex: "Par: Admin User")
+   □ Fond gris clair en arrière-plan
+
+   TABLEAU DES PRODUITS:
+   □ 4 colonnes: Produit | Quantité | Emplacement | Statut
+   □ En-tête avec fond indigo et texte blanc
+   □ Bordures gris clair autour des cellules
+   □ Lignes alternées blanc/gris clair
+   □ Padding interne dans les cellules
+   □ Quantités alignées au centre
+   □ Produits alignés à gauche
+   □ Emplacements affichés (Zone - Localisation)
+
+   ALERTES VISUELLES:
+   □ Stocks faibles (< 10) en fond jaune avec "⚠ Faible"
+   □ Stocks normaux en fond blanc avec "✓ OK"
+
+   RÉSUMÉ:
+   □ Section "Résumé" avec puces:
+     • Total produits: X
+     • Total lots: Y
+     • Date rapport: JJ/MM/AAAA
+
+   FOOTER:
+   □ Ligne de séparation gris clair
+   □ "Système de Gestion de Stock - Document Confidentiel"
+   □ "Page 1" aligné à droite
+
+
+ÉTAPE 5: TÉLÉCHARGER LE PDF - RAPPORT BILAN
+════════════════════════════════════════════════════════════════════════════
+
+1. Trouver le rapport bilan généré
+2. Cliquer sur bouton "📄 PDF"
+3. Le PDF devrait être téléchargé
+4. Ouvrir le PDF avec une visionneuse
+
+VÉRIFICATIONS DU PDF BILAN:
+
+   EN-TÊTE:
+   □ Titre "📊 RAPPORT BILAN" - texte gros en gris foncé
+   □ Sous-titre: "Bilan global du système de gestion"
+   □ Date et heure complètes
+   □ Auteur du rapport
+   □ Fond gris clair
+
+   CARTES STATISTIQUES:
+   □ 4 cartes arrangées en grille (2x2):
+     1. Total Produits (bleu) - bordure bleu foncé
+     2. Total Lots (indigo) - bordure indigo
+     3. Emplacements (vert) - bordure vert
+     4. Quantité Totale (orange) - bordure orange
+
+   CHAQUE CARTE CONTIENT:
+   □ Grande valeur numérique colorée (24pt)
+   □ Label descriptif en gris clair (9pt)
+   □ Bordure épaisse correspondant à la couleur
+   □ Fond semi-transparent correspondant
+
+   TABLEAU RÉSUMÉ:
+   □ 4 lignes:
+     • Produits actifs: X
+     • Lots en stock: Y
+     • Emplacements configurés: Z
+     • Quantité totale en stock: N unités
+   □ Colonne gauche avec labels
+   □ Colonne droite avec valeurs alignées à droite
+   □ Lignes alternées blanc/gris
+
+   FOOTER:
+   □ Ligne de séparation
+   □ "Système de Gestion de Stock - Document Confidentiel"
+   □ "Page 1" aligné à droite
+
+
+ÉTAPE 6: TESTS DE PAGINATION (INVENTAIRE AVEC BEAUCOUP DE PRODUITS)
+════════════════════════════════════════════════════════════════════════════
+
+Si vous avez beaucoup de produits (> 20):
+
+1. Générer un rapport inventaire
+2. Télécharger le PDF
+3. Ouvrir et vérifier:
+
+   □ Le tableau continue sur plusieurs pages
+   □ En-têtes du tableau se répètent sur chaque page
+   □ Numéroation des pages correcte:
+     - "Page 1" sur première page
+     - "Page 2" sur deuxième page, etc.
+   □ Footer sur chaque page
+   □ Pas de coupure de ligne au milieu d'un produit
+
+
+ÉTAPE 7: TESTS DE COULEURS ET TYPOGRAPHIE
+════════════════════════════════════════════════════════════════════════════
+
+Ouvrir les PDFs et vérifier les couleurs:
+
+   COULEURS ATTENDUES:
+   □ Titres: Gris foncé (#1F2937)
+   □ En-têtes tableau: Blanc sur indigo (#6366F1)
+   □ Cartes statistiques: Couleurs distinctes
+     - Produits: Bleu (#1F2937)
+     - Lots: Indigo (#6366F1)
+     - Emplacements: Vert (#10B981)
+     - Quantité: Orange (#F59E0B)
+   □ Borderures: Gris clair (#E5E7EB)
+   □ Stocks faibles: Fond jaune (#FEF3C7)
+   □ Texte normal: Gris foncé (#1F2937)
+   □ Texte clair: Gris moyen (#6B7280)
+
+   TYPOGRAPHIE:
+   □ Titres: Helvetica Bold, 28pt
+   □ Titres sections: Helvetica Bold, 14pt
+   □ En-têtes tableau: Helvetica Bold, 11pt, blanc
+   □ Contenu: Helvetica, 10pt
+   □ Valeurs cartes: Helvetica Bold, 24pt
+   □ Subtitles: Helvetica, 11pt
+   □ Footer: Helvetica, 9pt
+
+
+ÉTAPE 8: TESTS RESPONSIVITÉ A4
+════════════════════════════════════════════════════════════════════════════
+
+1. Télécharger un PDF
+2. Imprimer le PDF (Ctrl+P ou menu Fichier > Imprimer)
+3. Vérifier l'aperçu avant impression:
+
+   □ Le contenu tient sur la page sans déborder
+   □ Les marges sont cohérentes
+   □ Les tableaux sont lisibles
+   □ Les cartes statistiques sont bien espacées
+   □ Pas de texte coupé
+   □ Format A4 respecté
+
+
+ÉTAPE 9: TESTS DE CONTENU VÉRIFIÉS
+════════════════════════════════════════════════════════════════════════════
+
+INVENTAIRE:
+   □ Liste complète de tous les produits
+   □ Quantités correctes (somme des lots)
+   □ Emplacements affichés
+   □ Statuts corrects (Faible si < 10, OK sinon)
+   □ Pas de produits manquants
+   □ Pas de produits en double
+
+BILAN:
+   □ Total Produits = nombre exact de produits
+   □ Total Lots = nombre exact de lots
+   □ Emplacements = nombre exact d'emplacements
+   □ Quantité Totale = somme exacte de toutes les quantités
+
+
+ÉTAPE 10: POINTS DE CONTRÔLE QUALITÉ
+════════════════════════════════════════════════════════════════════════════
+
+QUALITÉ GÉNÉRALE:
+   □ PDFs affichables dans tous les lecteurs
+   □ PDFs imprimables sans erreur
+   □ PDFs envoyer par email sans problème
+   □ Aucune erreur console lors de génération
+   □ Pas de caractères corrompus
+   □ Français accents respectés (é, è, ê, ç, etc)
+
+PERFORMANCES:
+   □ Téléchargement PDF < 2 secondes
+   □ PDF de taille raisonnable (< 1MB)
+   □ Pas de freezing lors de génération
+   □ Backend logs affichent succès
+
+COMPATIBILITÉ:
+   □ Ouvrable dans Adobe Acrobat
+   □ Ouvrable dans navigateurs
+   □ Imprimable en couleur
+   □ Imprimable en N&B
+   □ Affichage correct sur mobile (si zip)
+
+
+ÉTAPE 11: TESTS D'ERREURS
+════════════════════════════════════════════════════════════════════════════
+
+Cas d'erreur à tester:
+
+1. Rapport avec 0 produits:
+   □ PDF génération sans crash
+   □ Message approprié ou tableau vide
+
+2. Rapport avec noms très longs:
+   □ Texte wrappé correctement
+   □ Pas de débordement
+
+3. Produits sans emplacement:
+   □ Affiche "N/A" au lieu de crash
+   □ Tableau reste lisible
+
+4. Clic multiple sur "Télécharger PDF":
+   □ Pas de double téléchargement
+   □ Un seul PDF généré
+
+
+ÉTAPE 12: VÉRIFICATION CONSOLE BACKEND
+════════════════════════════════════════════════════════════════════════════
+
+Lors du clic sur "📄 PDF", vérifier les logs:
+
+   ✓ Pas d'erreur 500
+   ✓ Logs: "❌ Erreur génération PDF:" absent
+   ✓ Rapport trouvé dans BD
+   ✓ Données chargées correctement
+   ✓ PDF généré sans exception
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                         ✅ CHECKLIST FINALE                              ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+AVANT DÉPLOIEMENT:
+
+   □ Tous les tests 1-12 passés
+   □ PDFs téléchargeables sur tous les navigateurs
+   □ Aucune erreur console
+   □ Backend logs sans erreur
+   □ PDFs affichables avec lecteur standard
+   □ Mise en page cohérente
+   □ Couleurs respectées
+   □ Données correctes
+   □ Formatage professionnel
+   □ Pagination correcte
+
+RÉSULTAT:
+   ✅ PDFs professionnels et lisibles
+   ✅ Utilisateurs satisfaits
+   ✅ Documents imprimables
+   ✅ Prêt pour déploiement en production
+

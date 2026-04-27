@@ -15,20 +15,28 @@ export default function RapportsScreen() {
   const fetchRapports = async () => {
     try {
       const res = await api.get('/rapports');
-      setRapports(res.data);
-    } catch (e) { Alert.alert('Erreur', e.message); }
+      console.log('📊 API Response Rapports:', res.data);
+      setRapports(res.data.rapports || []);
+      console.log('✅ Rapports loaded:', res.data.rapports?.length || 0);
+    } catch (e) { 
+      console.error('❌ Erreur fetchRapports:', e);
+      Alert.alert('Erreur', e.message); 
+    }
     finally { setLoading(false); setRefreshing(false); }
   };
 
   useFocusEffect(useCallback(() => { fetchRapports(); }, []));
 
   const generer = async (type) => {
+    console.log(`📋 Génération rapport: ${type}`);
     setGenerating(true);
     try {
       const res = await api.post('/rapports/generer', { type });
+      console.log(`✅ Rapport ${type} généré:`, res.data);
       Alert.alert('✅ Succès', `Rapport ${type} généré`);
       await fetchRapports();
     } catch (e) {
+      console.error(`❌ Erreur génération ${type}:`, e);
       Alert.alert('Erreur', e.message);
     } finally {
       setGenerating(false);

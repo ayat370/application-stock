@@ -4,27 +4,36 @@ const nodemailer = require('nodemailer');
 const requiredEnvVars = ['EMAIL_HOST', 'EMAIL_PORT', 'EMAIL_USER', 'EMAIL_PASS', 'EMAIL_FROM'];
 const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
-if (missingVars.length > 0) {
-  throw new Error(`Variables d'environnement manquantes pour Nodemailer: ${missingVars.join(', ')}`);
-}
+let transporter = null;
+let emailConfigured = false;
 
-// Configuration du transporteur
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST,
-  port: parseInt(process.env.EMAIL_PORT, 10),
-  secure: false, // false pour TLS
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS,
-  },
-  // Options de sécurité supplémentaires
-  tls: {
-    rejectUnauthorized: false, // Pour les environnements de développement
-  },
-});
+if (missingVars.length > 0) {
+  console.warn(`⚠️ Configuration Nodemailer incomplète : variables manquantes ${missingVars.join(', ')}. Les emails ne seront pas envoyés.`);
+} else {
+  // Configuration du transporteur
+  transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST,
+    port: parseInt(process.env.EMAIL_PORT, 10),
+    secure: false, // false pour TLS
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    // Options de sécurité supplémentaires
+    tls: {
+      rejectUnauthorized: false, // Pour les environnements de développement
+    },
+  });
+  emailConfigured = true;
+}
 
 // Vérification de la configuration
 const verifyConnection = async () => {
+  if (!emailConfigured || !transporter) {
+    console.warn('⚠️ Vérification Nodemailer impossible : configuration email incomplète.');
+    return false;
+  }
+
   try {
     await transporter.verify();
     console.log('✅ Configuration Nodemailer vérifiée avec succès');
@@ -44,6 +53,10 @@ const sendEmail = async ({ to = 'admin1563@gmail.com', subject, html, attachment
 
   if (!to || typeof to !== 'string') {
     throw new Error('Adresse email destinataire invalide');
+  }
+
+  if (!emailConfigured || !transporter) {
+    throw new Error('La configuration email est incomplète. Vérifiez les variables d\'environnement EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASS et EMAIL_FROM.');
   }
 
   try {
@@ -234,5 +247,6 @@ module.exports = {
   verifyConnection,
   lowStockTemplate,
   expiredProductTemplate,
-  transporter
+  transporter,
+  emailConfigured,
 };
