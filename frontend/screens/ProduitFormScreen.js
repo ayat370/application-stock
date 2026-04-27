@@ -59,7 +59,7 @@ export default function ProduitFormScreen({ route, navigation }) {
       <View style={styles.form}>
         <Input
           label="Nom du produit *"
-          placeholder="Ex: Huile moteur 5W30"
+          placeholder="Ex: rinomicine 10 sobres"
           value={nom}
           onChangeText={(value) => { setNom(value); if (errors.nom) setErrors({ ...errors, nom: null }); }}
           error={errors.nom}
