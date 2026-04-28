@@ -22,6 +22,9 @@ import RapportsScreen from '../screens/RapportsScreen';
 import ProfilScreen from '../screens/ProfilScreen';
 import UsersScreen from '../screens/UsersScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import MouvementsScreen from '../screens/MouvementsScreen';
+import MouvementFormScreen from '../screens/MouvementFormScreen';
+import MouvementDetailScreen from '../screens/MouvementDetailScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -67,6 +70,8 @@ function MainTabs() {
         options={{ title: 'Lots', tabBarIcon: tabIcon('🗂️') }} />
       <Tab.Screen name="Stock" component={StockScreen}
         options={{ title: 'Stock', tabBarIcon: tabIcon('📊') }} />
+      <Tab.Screen name="Mouvements" component={MouvementsScreen}
+        options={{ title: 'Mouvements', tabBarIcon: tabIcon('↔️') }} />
       {/* Onglet Notifications masqué pour les magasiniers */}
       {user?.role !== 'magasinier' && (
         <Tab.Screen
@@ -113,6 +118,8 @@ export default function AppNavigator() {
             <Stack.Screen name="Scanner" component={ScannerScreen} options={{ title: 'Scanner Code-Barres' }} />
             <Stack.Screen name="Rapports" component={RapportsScreen} options={{ title: 'Rapports' }} />
             <Stack.Screen name="Users" component={UsersScreen} options={{ title: 'Utilisateurs' }} />
+            <Stack.Screen name="MouvementForm" component={MouvementFormScreen} options={{ title: 'Mouvement de Stock' }} />
+            <Stack.Screen name="MouvementDetail" component={MouvementDetailScreen} options={{ title: 'Détails du Mouvement' }} />
           </>
         )}
       </Stack.Navigator>

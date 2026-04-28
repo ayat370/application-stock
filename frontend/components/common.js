@@ -9,6 +9,7 @@ export const colors = {
   success: '#0E9F6E',
   danger: '#F05252',
   warning: '#E3A008',
+  info: '#3B82F6',
   bg: '#F3F4F6',
   card: '#FFFFFF',
   border: '#E5E7EB',

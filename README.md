@@ -175,8 +175,141 @@ npx expo start
 - **Produits** — Liste, recherche, ajout/modif/suppr
 - **Lots** — Gestion des lots + alertes expiration
 - **Stock** — Vue globale du stock disponible
+- **Mouvements** — 🆕 Historique et gestion des mouvements de stock
 - **Scanner** — Scan code-barres via caméra
 - **Emplacements** — Gestion des zones de stockage
 - **Rapports** — Inventaire et bilan
 - **Profil** — Info utilisateur + permissions
 - **Utilisateurs** — Gestion des comptes (Admin)
+
+---
+
+## 🆕 Gestion des Mouvements de Stock
+
+### 📊 Nouvelle Fonctionnalité : Historique Complet des Mouvements
+
+Une interface professionnelle pour tracker tous les mouvements de stock avec audit complet.
+
+### Types de Mouvements
+
+| Type | Icon | Description |
+|------|------|-------------|
+| **Entrée** | 📥 | Réception (fournisseur, retour client...) |
+| **Sortie** | 📤 | Préparation/Livraison (commande client, perte...) |
+| **Transfert** | ↔️ | Déplacement entre emplacements |
+
+### Endpoints API des Mouvements
+
+| Méthode | URL | Description |
+|---------|-----|-------------|
+| GET | /api/mouvements | Liste mouvements (pagination, filtres, tri) |
+| GET | /api/mouvements/:id | Détail d'un mouvement |
+| GET | /api/mouvements/stats/resume | Résumé du stock par produit |
+| GET | /api/mouvements/stats/parType | Statistiques par type de mouvement |
+| POST | /api/mouvements/entree/create | Créer une entrée |
+| POST | /api/mouvements/sortie/create | Créer une sortie |
+| POST | /api/mouvements/transfert/create | Créer un transfert |
+| PUT | /api/mouvements/:id | Mettre à jour un mouvement |
+| DELETE | /api/mouvements/:id | Supprimer (seulement en_attente) |
+
+### Champs du Mouvement de Stock
+
+```json
+{
+  "_id": "ObjectId",
+  "produit": "ObjectId (ref: Produit)",
+  "lot": "ObjectId (ref: Lot)",
+  "type": "entrée|sortie|transfert",
+  "quantite": "Number",
+  "emplacementSource": "ObjectId (ref: Emplacement)",
+  "emplacementDestinaire": "ObjectId (ref: Emplacement)",
+  "dateMouvement": "Date",
+  "description": "String",
+  "utilisateur": "ObjectId (ref: User)",
+  "statut": "en_attente|approuvé|rejeté",
+  "reference": "String (BL, Facture, etc.)",
+  "timestamps": "createdAt, updatedAt"
+}
+```
+
+### Cas d'Usage
+
+#### 1. Créer une Entrée de Stock
+
+```bash
+POST /api/mouvements/entree/create
+{
+  "produit": "607f1f77bcf86cd799439011",
+  "lot": "607f1f77bcf86cd799439012",
+  "quantite": 50,
+  "emplacement": "607f1f77bcf86cd799439013",
+  "description": "Réception commande fournisseur",
+  "reference": "BL-2024-001"
+}
+```
+
+#### 2. Créer une Sortie de Stock
+
+```bash
+POST /api/mouvements/sortie/create
+{
+  "produit": "607f1f77bcf86cd799439011",
+  "lot": "607f1f77bcf86cd799439012",
+  "quantite": 30,
+  "emplacement": "607f1f77bcf86cd799439013",
+  "description": "Préparation commande client",
+  "reference": "CMD-2024-001"
+}
+```
+
+#### 3. Créer un Transfert
+
+```bash
+POST /api/mouvements/transfert/create
+{
+  "produit": "607f1f77bcf86cd799439011",
+  "lot": "607f1f77bcf86cd799439012",
+  "quantite": 20,
+  "emplacementSource": "607f1f77bcf86cd799439013",
+  "emplacementDestinaire": "607f1f77bcf86cd799439014",
+  "description": "Réorganisation du stock",
+  "reference": "TRANSFER-001"
+}
+```
+
+### Filtrage et Recherche
+
+```bash
+GET /api/mouvements?type=entrée&page=1&limit=20
+GET /api/mouvements?produit=607f1f77bcf86cd799439011&page=1&limit=10
+GET /api/mouvements?dateDebut=2024-04-01&dateFin=2024-04-30
+```
+
+### Validation et Règles Métier
+
+✅ **Ajout (Entrée)**
+- Augmente la quantité du lot
+- Crée une notification
+
+✅ **Retrait (Sortie)**
+- Vérifie la disponibilité suffisante
+- Refuse si stock insuffisant
+- Crée une notification
+
+✅ **Transfert**
+- Enregistre l'emplacement source et destinataire
+- Audit complet
+
+### Outils de Test
+
+Pour tester l'API des mouvements, consultez :
+- **`backend/test-mouvements-api.js`** — Exemples de requêtes
+- **`MOUVEMENT_STOCK_GUIDE.md`** — Documentation complète
+
+### Frontend - Écrans
+
+- **MouvementsScreen** — Historique avec filtres et stats
+- **MouvementFormScreen** — Formulaires adaptatifs (Entrée/Sortie/Transfert)
+- **MouvementDetailScreen** — Détail complet d'un mouvement
+
+---

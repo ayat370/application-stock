@@ -6,8 +6,18 @@ const { protect, authorize } = require('../middleware/auth');
 // GET /api/emplacements
 router.get('/', protect, async (req, res) => {
   try {
-    const emplacements = await Emplacement.find();
-    res.json(emplacements);
+    const { limit = 100, skip = 0 } = req.query;
+    const emplacements = await Emplacement.find()
+      .limit(parseInt(limit))
+      .skip(parseInt(skip));
+    const total = await Emplacement.countDocuments();
+    
+    res.json({
+      emplacements,
+      total,
+      limit: parseInt(limit),
+      skip: parseInt(skip)
+    });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }

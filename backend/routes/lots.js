@@ -8,11 +8,13 @@ const { sendEmail } = require('../config/email');
 // GET /api/lots
 router.get('/', protect, async (req, res) => {
   try {
-    const { produitId, search, status, page = 1, limit = 10, sortBy = 'datecreation', sortOrder = 'desc' } = req.query;
+    const { produitId, produit, search, status, page = 1, limit = 10, sortBy = 'datecreation', sortOrder = 'desc' } = req.query;
     const query = {};
     const andConditions = [];
 
-    if (produitId) query.produit = produitId;
+    // Accepter à la fois 'produit' et 'produitId' comme paramètres pour la compatibilité
+    const productId = produitId || produit;
+    if (productId) query.produit = productId;
 
     if (search) {
       andConditions.push({

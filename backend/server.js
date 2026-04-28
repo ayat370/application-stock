@@ -26,6 +26,7 @@ app.use('/api/lots', require('./routes/lots'));
 app.use('/api/emplacements', require('./routes/emplacements'));
 app.use('/api/rapports', require('./routes/rapports'));
 app.use('/api/notifications', require('./routes/notifications'));
+app.use('/api/mouvements', require('./routes/mouvements'));
 
 // Route de test
 app.get('/', (req, res) => res.json({ message: '🚀 API Stock fonctionnelle' }));
@@ -56,6 +57,11 @@ app.get('/test-email', async (req, res) => {
     console.error('Erreur test email:', error);
     res.status(500).json({ message: error.message });
   }
+});
+
+// 404 JSON pour les routes non trouvées
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route API introuvable' });
 });
 
 // Gestion erreurs globale

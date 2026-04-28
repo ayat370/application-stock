@@ -57,8 +57,11 @@ export default function ProduitsScreen({ navigation }) {
   const fetchEmplacements = async () => {
     try {
       const res = await api.get('/emplacements');
-      setEmplacements(res.data);
-    } catch (e) { console.log(e.message); }
+      setEmplacements(res.data.emplacements || []);
+    } catch (e) { 
+      console.log(e.message);
+      setEmplacements([]);
+    }
   };
 
   useFocusEffect(useCallback(() => { 
