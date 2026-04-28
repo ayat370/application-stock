@@ -466,141 +466,147 @@ export default function MouvementFormScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: colors.bg,
   },
   form: {
-    padding: 20
+    padding: 22,
   },
   header: {
-    marginBottom: 25,
-    paddingBottom: 15,
-    borderBottomWidth: 2,
-    borderBottomColor: colors.primary
+    marginBottom: 24,
+    paddingBottom: 14,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.primary
+    fontWeight: '800',
+    color: colors.text,
   },
   formGroup: {
-    marginBottom: 20
+    marginBottom: 22,
   },
   label: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8
+    fontWeight: '700',
+    color: colors.textLight,
+    marginBottom: 10,
   },
   input: {
     borderWidth: 1,
-    borderColor: '#ddd',
-    borderRadius: 8,
-    padding: 12,
-    backgroundColor: 'white',
-    fontSize: 14
+    borderColor: colors.border,
+    borderRadius: 18,
+    padding: 14,
+    backgroundColor: colors.white,
+    fontSize: 15,
+    color: colors.text,
   },
   inputText: {
-    color: '#333',
-    fontSize: 14
+    color: colors.text,
+    fontSize: 15,
   },
   inputDisabled: {
-    color: '#999'
+    color: colors.textLight,
   },
   inputDisabledBox: {
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#F8FAFC',
   },
   editModeText: {
     marginTop: 8,
-    color: '#666',
-    fontSize: 13
+    color: colors.textLight,
+    fontSize: 13,
   },
   inputError: {
     borderColor: colors.danger,
-    borderWidth: 2
+    borderWidth: 1.5,
   },
   textArea: {
-    minHeight: 100,
-    textAlignVertical: 'top'
+    minHeight: 110,
+    textAlignVertical: 'top',
   },
   errorText: {
     color: colors.danger,
     fontSize: 12,
-    marginTop: 5
+    marginTop: 6,
   },
   actionBar: {
     flexDirection: 'row',
     gap: 10,
-    marginVertical: 20
+    marginVertical: 20,
   },
   btn: {
     flex: 1,
-    paddingVertical: 12,
-    borderRadius: 8,
+    paddingVertical: 14,
+    borderRadius: 16,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   btnCancel: {
-    backgroundColor: '#ddd'
+    backgroundColor: '#E2E8F0',
   },
   btnSubmit: {
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   btnText: {
-    fontWeight: 'bold',
+    fontWeight: '700',
     fontSize: 14,
-    color: 'white'
+    color: 'white',
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end'
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    justifyContent: 'flex-end',
   },
   modal: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '80%'
+    backgroundColor: colors.card,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '80%',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: -8 },
+    shadowOpacity: 0.08,
+    shadowRadius: 20,
+    elevation: 8,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 18,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee'
+    borderBottomColor: colors.border,
   },
   modalTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333'
+    fontWeight: '800',
+    color: colors.text,
   },
   closeBtn: {
     fontSize: 24,
-    color: '#999'
+    color: colors.textLight,
   },
   modalList: {
-    maxHeight: '100%'
+    maxHeight: '100%',
   },
   modalItem: {
     paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingVertical: 16,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0'
+    borderBottomColor: '#E2E8F0',
   },
   modalItemTitle: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#333'
+    fontWeight: '700',
+    color: colors.text,
   },
   modalItemSubtitle: {
     fontSize: 12,
-    color: '#999',
-    marginTop: 4
+    color: colors.textLight,
+    marginTop: 4,
   },
   emptyText: {
     textAlign: 'center',
     paddingVertical: 20,
-    color: '#999'
-  }
+    color: colors.textLight,
+  },
 });

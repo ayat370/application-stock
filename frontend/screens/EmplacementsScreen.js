@@ -16,7 +16,7 @@ export default function EmplacementsScreen({ navigation }) {
   const fetchEmplacements = async () => {
     try {
       const res = await api.get('/emplacements');
-      setEmplacements(res.data);
+      setEmplacements(res.data.emplacements || []);
     } catch (e) { Alert.alert('Erreur', e.message); }
     finally { setLoading(false); setRefreshing(false); }
   };
@@ -85,18 +85,19 @@ export default function EmplacementsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
   row: { flexDirection: 'row', alignItems: 'center' },
-  zoneBadge: { borderWidth: 1.5, borderRadius: 8, padding: 8, minWidth: 60, alignItems: 'center' },
+  zoneBadge: { borderWidth: 1.5, borderRadius: 14, padding: 10, minWidth: 64, alignItems: 'center', backgroundColor: colors.card },
   zoneText: { fontSize: 11, fontWeight: '700' },
   name: { fontSize: 16, fontWeight: '700', color: colors.text },
   boites: { fontSize: 13, color: colors.textLight, marginTop: 4 },
   actions: { flexDirection: 'row', gap: 8 },
-  editBtn: { padding: 8, backgroundColor: '#EFF6FF', borderRadius: 8 },
-  deleteBtn: { padding: 8, backgroundColor: '#FEF2F2', borderRadius: 8 },
+  editBtn: { padding: 10, backgroundColor: '#EFF6FF', borderRadius: 14 },
+  deleteBtn: { padding: 10, backgroundColor: '#FEF2F2', borderRadius: 14 },
   fab: {
     position: 'absolute', bottom: 24, right: 24,
     width: 56, height: 56, borderRadius: 28,
     backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center',
-    elevation: 6,
+    shadowColor: '#0f172a', shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.24, shadowRadius: 20, elevation: 8,
   },
-  fabText: { color: '#fff', fontSize: 28, fontWeight: '300', lineHeight: 56 },
+  fabText: { color: '#fff', fontSize: 30, fontWeight: '300', lineHeight: 56 },
 });

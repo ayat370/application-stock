@@ -137,7 +137,7 @@ export default function LotFormScreen({ route, navigation }) {
                 padding: '12px',
                 borderWidth: 1.5,
                 borderColor: colors.border,
-                borderRadius: 10,
+                borderRadius: 14,
                 backgroundColor: colors.white,
                 fontSize: 16,
                 borderStyle: 'solid',
@@ -229,59 +229,43 @@ export default function LotFormScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-
   container: { flex: 1, backgroundColor: colors.bg },
-  form: { padding: 16 },
-
-  label: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: colors.textLight,
-    marginBottom: 6
-  },
-
+  form: { padding: 20, paddingBottom: 36 },
+  label: { fontSize: 13, fontWeight: '600', color: colors.textLight, marginBottom: 8 },
   dateInput: {
     borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: 10,
-    padding: 12,
-    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 14,
+    backgroundColor: colors.card,
+    color: colors.text,
   },
-
-  dateHint: {
-    fontSize: 12,
-    color: colors.textLight,
-    marginTop: 4
-  },
-
+  dateHint: { fontSize: 12, color: colors.textLight, marginTop: 6 },
   productSelector: {
     borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: 10,
-    padding: 12,
-    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 14,
+    backgroundColor: colors.card,
   },
-
   modalContainer: { flex: 1, backgroundColor: colors.bg },
-
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    padding: 16,
+    padding: 18,
     borderBottomWidth: 1,
     borderColor: colors.border,
-    backgroundColor: colors.white,
+    backgroundColor: colors.card,
   },
-
-  modalTitle: { fontSize: 18, fontWeight: '700' },
-
+  modalTitle: { fontSize: 18, fontWeight: '800', color: colors.text },
   productItem: {
-    backgroundColor: colors.white,
-    padding: 16,
-    margin: 8,
-    borderRadius: 10,
+    backgroundColor: colors.card,
+    padding: 18,
+    margin: 10,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-
-  productName: { fontSize: 16, fontWeight: '600' },
-  productCode: { fontSize: 14, color: colors.textLight, marginTop: 4 },
+  productName: { fontSize: 16, fontWeight: '700', color: colors.text },
+  productCode: { fontSize: 14, color: colors.textLight, marginTop: 6 },
 });

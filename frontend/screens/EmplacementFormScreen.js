@@ -73,12 +73,17 @@ export default function EmplacementFormScreen({ route, navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  form: { padding: 16, paddingBottom: 40 },
-  label: { fontSize: 13, fontWeight: '600', color: colors.textLight, marginBottom: 8 },
-  zoneRow: { flexDirection: 'row', gap: 8, marginBottom: 14 },
+  form: { padding: 20, paddingBottom: 40 },
+  label: { fontSize: 13, fontWeight: '600', color: colors.textLight, marginBottom: 10 },
+  zoneRow: { flexDirection: 'row', gap: 10, marginBottom: 18 },
   zoneBtn: {
-    flex: 1, padding: 12, borderRadius: 10, borderWidth: 1.5,
-    borderColor: colors.border, alignItems: 'center', backgroundColor: colors.white,
+    flex: 1,
+    padding: 14,
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    alignItems: 'center',
+    backgroundColor: colors.card,
   },
-  zoneBtnText: { fontWeight: '600', color: colors.text },
+  zoneBtnText: { fontWeight: '700', color: colors.text },
 });

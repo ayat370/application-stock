@@ -228,211 +228,221 @@ export default function MouvementsScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: colors.bg,
   },
   actionBar: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    padding: 12,
-    backgroundColor: 'white',
+    padding: 16,
+    backgroundColor: colors.card,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: colors.border,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.05,
+    shadowRadius: 16,
+    elevation: 5,
   },
   actionBtn: {
     minWidth: 110,
     width: '30%',
-    minHeight: 48,
-    borderRadius: 14,
+    minHeight: 50,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 14,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: '#0f172a',
     shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
   },
   actionBtnText: {
-    color: 'white',
+    color: colors.white,
     fontWeight: '700',
-    fontSize: 13
+    fontSize: 13,
   },
   entryBtn: {
-    backgroundColor: colors.success
+    backgroundColor: colors.success,
   },
   exitBtn: {
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
   },
   transferBtn: {
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   stockBtn: {
-    backgroundColor: colors.info
+    backgroundColor: colors.info,
   },
   filterScroll: {
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    backgroundColor: 'white'
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: colors.card,
   },
   filterChip: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginRight: 8,
-    backgroundColor: '#f0f0f0',
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 22,
+    marginRight: 10,
+    backgroundColor: '#F8FAFC',
     borderWidth: 1,
-    borderColor: '#ddd'
+    borderColor: colors.border,
   },
   filterChipActive: {
     backgroundColor: colors.primary,
-    borderColor: colors.primary
+    borderColor: colors.primary,
   },
   filterChipText: {
-    fontSize: 12,
-    color: '#666',
-    fontWeight: '600'
+    fontSize: 13,
+    color: colors.textLight,
+    fontWeight: '600',
   },
   filterChipTextActive: {
-    color: 'white'
+    color: colors.white,
   },
   list: {
     flex: 1,
-    padding: 10
+    padding: 14,
   },
   listEmpty: {
     flexGrow: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   mouvementCard: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    marginBottom: 10,
+    backgroundColor: colors.card,
+    borderRadius: 20,
+    marginBottom: 14,
     borderLeftWidth: 4,
-    borderLeftColor: colors.primary
+    borderLeftColor: colors.primary,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.06,
+    shadowRadius: 20,
+    elevation: 5,
   },
   mouvementRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
-    gap: 12
+    padding: 18,
+    gap: 12,
   },
   typeBadge: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   typeBadgeText: {
-    color: 'white',
+    color: colors.white,
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 16,
   },
   correctionBadge: {
-    marginTop: 4,
+    marginTop: 6,
     alignSelf: 'flex-start',
-    backgroundColor: '#FFE3B8',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12
+    backgroundColor: '#FEF3C7',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
   },
   correctionBadgeText: {
-    fontSize: 10,
-    color: '#A55F00',
-    fontWeight: '700'
+    fontSize: 11,
+    color: '#92400E',
+    fontWeight: '700',
   },
   mouvementInfo: {
-    flex: 1
+    flex: 1,
   },
   produitName: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333'
+    fontSize: 15,
+    fontWeight: '700',
+    color: colors.text,
   },
   quantiteText: {
-    fontSize: 12,
-    color: '#666',
-    marginTop: 2
+    fontSize: 13,
+    color: colors.textLight,
+    marginTop: 4,
   },
   mouvementDate: {
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
   },
   dateText: {
-    fontSize: 11,
-    color: '#999'
+    fontSize: 12,
+    color: colors.textLight,
   },
   userText: {
-    fontSize: 10,
-    color: '#ccc',
-    marginTop: 2
+    fontSize: 12,
+    color: colors.textLight,
+    marginTop: 4,
   },
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'flex-end'
+    backgroundColor: 'rgba(15, 23, 42, 0.45)',
+    justifyContent: 'flex-end',
   },
   statsModal: {
-    backgroundColor: 'white',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    maxHeight: '80%'
+    backgroundColor: colors.card,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxHeight: '80%',
   },
   statsHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    paddingHorizontal: 22,
+    paddingVertical: 18,
     borderBottomWidth: 1,
-    borderBottomColor: '#eee'
+    borderBottomColor: colors.border,
   },
   statsTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333'
+    fontWeight: '800',
+    color: colors.text,
   },
   closeBtn: {
     fontSize: 24,
-    color: '#999'
+    color: colors.textLight,
   },
   statsContent: {
-    padding: 20
+    padding: 20,
   },
   statItem: {
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 15,
-    padding: 15,
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    gap: 12
+    padding: 16,
+    backgroundColor: '#F8FAFC',
+    borderRadius: 18,
+    gap: 12,
   },
   statBadge: {
-    width: 50,
-    height: 50,
-    borderRadius: 10,
+    width: 52,
+    height: 52,
+    borderRadius: 14,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   statLabel: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 11,
-    textAlign: 'center'
+    color: colors.white,
+    fontWeight: '800',
+    fontSize: 12,
+    textAlign: 'center',
   },
   statValues: {
-    flex: 1
+    flex: 1,
   },
   statValue: {
-    fontSize: 12,
-    color: '#666',
-    marginVertical: 2
+    fontSize: 13,
+    color: colors.textLight,
+    marginVertical: 2,
   },
   statValueBold: {
     fontWeight: 'bold',
-    color: '#333'
-  }
+    color: colors.text,
+  },
 });

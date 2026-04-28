@@ -93,7 +93,7 @@ export default function LotsScreen({ navigation }) {
       { key: 'produit', label: 'Produit', flex: 2 },
       { key: 'quantite', label: 'Quantité', flex: 1 },
       { key: 'dateExpiration', label: 'Expiration', flex: 1.5 },
-      { key: 'actions', label: 'Actions', flex: 1, sortable: false },
+      { key: 'actions', label: 'Actions', flex: 1.2, sortable: false },
     ];
     return <TableHeader columns={columns} sortBy={sortBy} sortOrder={sortOrder} onSort={handleSort} />;
   };
@@ -122,7 +122,7 @@ export default function LotsScreen({ navigation }) {
             <Text style={styles.cellText}>-</Text>
           )}
         </View>
-        <View style={[styles.tableCell, { flex: 1 }]}>
+        <View style={[styles.tableCell, { flex: 1.2 }]}>
           <View style={styles.actions}>
             {canWrite && (
               <TouchableOpacity style={styles.editBtn} onPress={() => navigation.navigate('LotForm', { lot: item })}>
@@ -207,24 +207,47 @@ export default function LotsScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.bg },
-  header: { paddingHorizontal: 16, paddingTop: 20, paddingBottom: 12, backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border },
-  headerTitle: { fontSize: 24, fontWeight: '800', color: colors.text },
-  headerSubtitle: { fontSize: 13, color: colors.textLight, marginTop: 4 },
-  tableWrapper: { flex: 1 },
-  table: { minWidth: width },
-  tableRow: { flexDirection: 'row', backgroundColor: colors.white, borderBottomWidth: 1, borderBottomColor: colors.border, minHeight: 56 },
-  tableCell: { paddingVertical: 12, paddingHorizontal: 12, borderRightWidth: 1, borderRightColor: colors.border, justifyContent: 'center' },
-  cellText: { fontSize: 13, color: colors.text, fontWeight: '500' },
-  actions: { flexDirection: 'row', gap: 8 },
-  editBtn: { padding: 8, backgroundColor: '#EFF6FF', borderRadius: 8 },
-  deleteBtn: { padding: 8, backgroundColor: '#FEF2F2', borderRadius: 8 },
+  header: {
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    paddingBottom: 18,
+    backgroundColor: colors.card,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.05,
+    shadowRadius: 18,
+    elevation: 6,
+  },
+  headerTitle: { fontSize: 26, fontWeight: '800', color: colors.text },
+  headerSubtitle: { fontSize: 14, color: colors.textLight, marginTop: 6 },
+  tableWrapper: { flex: 1, marginTop: 12 },
+  table: {
+    minWidth: width,
+    borderRadius: 24,
+    overflow: 'hidden',
+    backgroundColor: colors.card,
+    marginHorizontal: 16,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.06,
+    shadowRadius: 20,
+    elevation: 6,
+  },
+  tableRow: { flexDirection: 'row', backgroundColor: colors.card, borderBottomWidth: 1, borderBottomColor: colors.bg, minHeight: 64 },
+  tableCell: { paddingVertical: 16, paddingHorizontal: 14, borderRightWidth: 1, borderRightColor: colors.border, justifyContent: 'center' },
+  cellText: { fontSize: 14, color: colors.text, fontWeight: '500' },
+  actions: { flexDirection: 'row', gap: 10, justifyContent: 'flex-end' },
+  editBtn: { padding: 8, backgroundColor: '#EFF6FF', borderRadius: 14 },
+  deleteBtn: { padding: 8, backgroundColor: '#FEF2F2', borderRadius: 14 },
   actionIcon: { fontSize: 16 },
   fab: {
-    position: 'absolute', bottom: 24, right: 24,
-    width: 56, height: 56, borderRadius: 28,
+    position: 'absolute', bottom: 26, right: 26,
+    width: 60, height: 60, borderRadius: 30,
     backgroundColor: colors.primary, justifyContent: 'center', alignItems: 'center',
-    shadowColor: '#000', shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3, shadowRadius: 8, elevation: 6,
+    shadowColor: '#0f172a', shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.24, shadowRadius: 20, elevation: 8,
   },
-  fabText: { color: '#fff', fontSize: 28, fontWeight: '300', lineHeight: 56 },
+  fabText: { color: '#fff', fontSize: 32, fontWeight: '300', lineHeight: 60 },
 });

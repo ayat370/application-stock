@@ -20,11 +20,11 @@ async function createTestData() {
     if (emplacements.length === 0) {
       emp1 = await Emplacement.create({
         nomemplacement: 'Entrepôt A',
-        zone: 'Zone 1'
+        zone: 'rayon'
       });
       emp2 = await Emplacement.create({
         nomemplacement: 'Entrepôt B', 
-        zone: 'Zone 2'
+        zone: 'depot'
       });
       console.log('📍 Emplacements créés');
     } else {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { View, Text, ActivityIndicator } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
@@ -27,13 +27,13 @@ import MouvementFormScreen from '../screens/MouvementFormScreen';
 import MouvementDetailScreen from '../screens/MouvementDetailScreen';
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
-const tabIcon = (name) => ({ focused }) => (
-  <Text style={{ fontSize: 20, opacity: focused ? 1 : 0.5 }}>{name}</Text>
+const drawerIcon = (name) => ({ focused, color }) => (
+  <Text style={{ fontSize: 20, color }}>{name}</Text>
 );
 
-function MainTabs() {
+function MainDrawer() {
   const { user, isAdmin, isGestionnaire } = useAuth();
   const [unreadCount, setUnreadCount] = useState(0);
 
@@ -52,42 +52,55 @@ function MainTabs() {
   }, [user]);
 
   return (
-    <Tab.Navigator
+    <Drawer.Navigator
       screenOptions={{
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.textLight,
-        tabBarStyle: { paddingBottom: 5, height: 60 },
+        drawerActiveTintColor: colors.primary,
+        drawerInactiveTintColor: colors.textLight,
+        drawerLabelStyle: { fontSize: 14, fontWeight: '600', marginLeft: -16 },
+        drawerContentStyle: {
+          backgroundColor: colors.card,
+          borderRightWidth: 1,
+          borderRightColor: colors.border,
+        },
+        drawerItemStyle: {
+          paddingVertical: 12,
+          paddingHorizontal: 20,
+          borderRadius: 12,
+          marginVertical: 4,
+          marginHorizontal: 12,
+        },
         headerStyle: { backgroundColor: colors.primary },
         headerTintColor: '#fff',
-        headerTitleStyle: { fontWeight: '700' },
+        headerTitleStyle: { fontWeight: '700', fontSize: 17 },
+        headerTitleAlign: 'left',
       }}
     >
-      <Tab.Screen name="Dashboard" component={DashboardScreen}
-        options={{ title: 'Accueil', tabBarIcon: tabIcon('🏠') }} />
-      <Tab.Screen name="Produits" component={ProduitsScreen}
-        options={{ title: 'Produits', tabBarIcon: tabIcon('📦') }} />
-      <Tab.Screen name="Lots" component={LotsScreen}
-        options={{ title: 'Lots', tabBarIcon: tabIcon('🗂️') }} />
-      <Tab.Screen name="Stock" component={StockScreen}
-        options={{ title: 'Stock', tabBarIcon: tabIcon('📊') }} />
-      <Tab.Screen name="Mouvements" component={MouvementsScreen}
-        options={{ title: 'Mouvements', tabBarIcon: tabIcon('↔️') }} />
+      <Drawer.Screen name="Dashboard" component={DashboardScreen}
+        options={{ title: 'Accueil', drawerIcon: drawerIcon('🏠') }} />
+      <Drawer.Screen name="Produits" component={ProduitsScreen}
+        options={{ title: 'Produits', drawerIcon: drawerIcon('📦') }} />
+      <Drawer.Screen name="Lots" component={LotsScreen}
+        options={{ title: 'Lots', drawerIcon: drawerIcon('🗂️') }} />
+      <Drawer.Screen name="Stock" component={StockScreen}
+        options={{ title: 'Stock', drawerIcon: drawerIcon('📊') }} />
+      <Drawer.Screen name="Mouvements" component={MouvementsScreen}
+        options={{ title: 'Mouvements', drawerIcon: drawerIcon('↔️') }} />
       {/* Onglet Notifications masqué pour les magasiniers */}
       {user?.role !== 'magasinier' && (
-        <Tab.Screen
+        <Drawer.Screen
           name="Notifications"
           options={{
             title: 'Notifications',
-            tabBarIcon: tabIcon('🔔'),
-            tabBarBadge: unreadCount > 0 ? unreadCount : undefined,
+            drawerIcon: drawerIcon('🔔'),
+            drawerLabel: `Notifications ${unreadCount > 0 ? `(${unreadCount})` : ''}`,
           }}
         >
           {() => <NotificationsScreen onUpdateUnreadCount={setUnreadCount} />}
-        </Tab.Screen>
+        </Drawer.Screen>
       )}
-      <Tab.Screen name="Profil" component={ProfilScreen}
-        options={{ title: 'Profil', tabBarIcon: tabIcon('👤') }} />
-    </Tab.Navigator>
+      <Drawer.Screen name="Profil" component={ProfilScreen}
+        options={{ title: 'Profil', drawerIcon: drawerIcon('👤') }} />
+    </Drawer.Navigator>
   );
 }
 
@@ -110,7 +123,7 @@ export default function AppNavigator() {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         ) : (
           <>
-            <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
+            <Stack.Screen name="Main" component={MainDrawer} options={{ headerShown: false }} />
             <Stack.Screen name="ProduitForm" component={ProduitFormScreen} options={{ title: 'Produit' }} />
             <Stack.Screen name="LotForm" component={LotFormScreen} options={{ title: 'Lot' }} />
             <Stack.Screen name="EmplacementsScreen" component={EmplacementsScreen} options={{ title: 'Emplacements' }} />

@@ -273,154 +273,167 @@ export default function MouvementDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: colors.bg,
   },
   content: {
-    padding: 15
+    padding: 18,
+    paddingBottom: 28,
   },
   header: {
-    padding: 20,
-    borderRadius: 12,
+    padding: 22,
+    borderRadius: 22,
     marginBottom: 20,
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.12,
+    shadowRadius: 24,
+    elevation: 8,
   },
   typeLabel: {
     fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white'
+    fontWeight: '800',
+    color: '#fff',
   },
   statusBadge: {
-    backgroundColor: 'rgba(255,255,255,0.3)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20
+    backgroundColor: 'rgba(255,255,255,0.22)',
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
   },
   statusText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 12,
-    fontWeight: 'bold',
-    textTransform: 'capitalize'
+    fontWeight: '800',
+    textTransform: 'capitalize',
   },
   card: {
-    backgroundColor: 'white',
-    borderRadius: 8,
-    padding: 15,
-    marginBottom: 15,
+    backgroundColor: colors.card,
+    borderRadius: 22,
+    padding: 20,
+    marginBottom: 16,
     borderLeftWidth: 4,
-    borderLeftColor: colors.primary
+    borderLeftColor: colors.primary,
+    shadowColor: '#0f172a',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.07,
+    shadowRadius: 20,
+    elevation: 5,
   },
   section: {
-    marginBottom: 10
+    marginBottom: 14,
   },
   sectionTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '800',
     color: colors.primary,
-    marginBottom: 8,
-    textTransform: 'uppercase'
+    marginBottom: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
   },
   productName: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333'
+    fontSize: 20,
+    fontWeight: '800',
+    color: colors.text,
   },
   productCode: {
-    fontSize: 12,
-    color: '#999',
-    marginTop: 4
+    fontSize: 13,
+    color: colors.textLight,
+    marginTop: 6,
   },
   divider: {
     height: 1,
-    backgroundColor: '#eee',
-    marginVertical: 15
+    backgroundColor: '#E2E8F0',
+    marginVertical: 18,
   },
   quantityBig: {
     fontSize: 36,
-    fontWeight: 'bold',
-    color: colors.primary
+    fontWeight: '900',
+    color: colors.primary,
   },
   quantityUnit: {
     fontSize: 14,
-    color: '#666',
-    marginTop: 5
+    color: colors.textLight,
+    marginTop: 4,
   },
   detailRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 10,
-    paddingBottom: 8,
+    marginBottom: 12,
+    paddingBottom: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0'
+    borderBottomColor: '#E2E8F0',
   },
   detailLabel: {
-    fontSize: 13,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#666',
-    flex: 1
+    color: colors.textLight,
+    flex: 1,
   },
   detailValue: {
-    fontSize: 13,
-    color: '#333',
+    fontSize: 14,
+    color: colors.text,
     flex: 1,
-    textAlign: 'right'
+    textAlign: 'right',
   },
   descriptionText: {
-    fontSize: 13,
-    color: '#555',
-    lineHeight: 20
+    fontSize: 14,
+    color: colors.text,
+    lineHeight: 22,
   },
   referenceText: {
     fontSize: 14,
     fontWeight: '600',
     color: colors.primary,
-    backgroundColor: '#f0f0f0',
-    padding: 10,
-    borderRadius: 6
+    backgroundColor: '#EFF6FF',
+    padding: 12,
+    borderRadius: 14,
   },
   errorText: {
     textAlign: 'center',
     fontSize: 16,
-    color: colors.danger
+    color: colors.danger,
   },
   actionBar: {
     flexDirection: 'row',
     flexWrap: 'wrap',
+    justifyContent: 'space-between',
     gap: 10,
     marginTop: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   actionBtn: {
-    minHeight: 48,
+    minHeight: 52,
     paddingHorizontal: 18,
-    borderRadius: 14,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
     marginBottom: 10,
-    shadowColor: '#000',
+    shadowColor: '#0f172a',
     shadowOpacity: 0.08,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 4
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 5,
   },
   editBtn: {
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
   },
   deleteBtn: {
-    backgroundColor: colors.danger
+    backgroundColor: colors.danger,
   },
   cancelBtn: {
-    backgroundColor: '#d54d5d'
+    backgroundColor: '#D14353',
   },
   disabledBtn: {
-    opacity: 0.6
+    opacity: 0.7,
   },
   actionBtnText: {
-    color: 'white',
+    color: colors.white,
     fontWeight: '700',
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });
